@@ -1,0 +1,16 @@
+header{
+    background: url(African_savanna_giraffe_sunset_silhouette_1366x768.jpg);
+    text-align: center;
+    align-items: flex-end;
+    justify-content: center;
+    align-content: center;
+    width: 1366px;
+    height: 768px;
+    padding: auto;
+    /* line-height: 15px; */
+}
+
+#photo_list{
+    width: 1366px;
+    height: 368px;  
+}

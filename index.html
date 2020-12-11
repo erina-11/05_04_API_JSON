@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flickr api</title>
+    <link rel="stylesheet" href="style.css">
+
+    <script>
+        window.addEventListener("DOMContentLoaded", function () {
+            //windowはすべてのブラウザオブジェクトの親に該当するオブジェクト
+            //addEventListerはイベントとそれに対応する関数を結びつけるときに使うElementオブジェクト
+            /*DOMContentLoaded イベントは、最初の HTML 文書の読み込みと解析が完了したとき、スタイルシート、画像、
+            サブフレームの読み込みが完了するのを待たずに発生
+            このイベントの本来の対象は、読み込まれた Document*/
+
+            const button = document.getElementById('button');
+            // ボタン押下時の処理
+            button.addEventListener("click", function () {
+                // 入力欄からキーワードを取得
+                const input = document.getElementById("keyword");
+                const keyword = input.value
+
+                // scriptタグを生成
+                const script = document.createElement('script');
+                // srcにFlickr APIのURLを指定  キーワードをエンコードしてtagsパラメーターに指定
+                /*エンコードとはデータを他の形式へ変換すること
+                (ここでは全角のキーワードをURLで利用できる文字列に変換要！これをURLエンコードという)*/
+                //パラメータとは
+
+                script.src = "https://api.flickr.com/services/feeds/photos_public.gne?format=json&tags=" + encodeURIComponent(keyword);
+                // Flickr APIの呼び出し
+                document.body.appendChild(script);
+                // 呼び出した後にscriptタグを削除
+                document.body.removeChild(script);
+            });
+        });
+
+        // JSONデータを受け取る関数
+        function jsonFlickrFeed(data) {
+            // 結果表示領域をクリア
+            const photo_list = document.getElementById("photo_list");
+            photo_list.innerHTML = "";
+
+            // itemsキーで検索結果を取得
+            for (i = 0; i < data.items.length; i++) {
+                // 検索結果内の画像情報を取得
+                const item = data.items[i];
+                // img要素を生成
+                const img = document.createElement("img");
+                // img要素のsrcに検索結果の画像のURLを指定
+                img.src = item.media.m;
+                photo_list.appendChild(img);
+            }
+        }
+    </script>
+</head>
+
+<body>
+    <header>
+        <h1>がぞうけんさくできます</h1>
+        <p>にゅうりょくしてみてね</p>
+        <input type="text" id="keyword" name="keyword">
+        <input type="button" id="button" value="けんさくするよ">
+        <div id="photo_list"></div>
+    </header>
+
+    <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script> -->
+    <!-- <script> -->
+    <!-- $('#button').on('click', function () { -->
+
+    <!-- document.getElementById('keyword').src = 'photo_list'; -->
+    <!-- </script> -->
+</body>
+
+</html>
